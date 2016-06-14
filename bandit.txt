@@ -45,4 +45,30 @@
     Plan 1: base64 -d data.txt
         -d is decode
     Outcome: success
-11-12:
+11-12: 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+    Plan 1: tr "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"
+        translate characters from the first set to the second set   
+        Then paste the contents of cat data.txt
+    Outcome: success
+12-13: 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+    Plan 1: Revert hex dump with xxd -r
+        uncompress until readable with gunzip
+    Outcome: xxd works, first uncompress works, but next is not a .gz
+    
+    Plan 2: revert hex dump with xxd -r. Uncompress until readable with gunzip or bunzip2
+        xxd -r
+        gunzip
+        bunzip2
+        gunzip
+    Outcome: after 2nd gunzip, can't bunzip2 or gunzip
+    
+    Plan 3: as before, but extract tar?
+        tar xvf
+        tar xvf
+        left with data6.bin
+        tar xvf -> data8.bin
+        tar xvf data8.bin -> nothing
+        change to .gz
+        gunzip
+        cat -> gave me password
+13-14: 
