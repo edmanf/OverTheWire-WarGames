@@ -1,0 +1,47 @@
+0-1: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+1-2: CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+2-3: UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+3-4: pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+4-5: koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+            cat ./*
+5-6: DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+            cat `find -readable -size 1033c ! -executable`
+                `` runs the inner command
+                -readable is human readable
+                -size 1033c is 1033 bytes
+                ! is not
+6-7: HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+            cat `find / -user bandit7 -group bandit6 -size 33c 2>&1 | grep -v Permission | grep -v "No such"`
+            cat `find / -user bandit7 -group bandit6 -size 33c 2>&1 | grep -v -E "Permission|No such"`
+
+                2>&1 means put stderr output into the same output as stdout.
+                    It looks the same because terminal displays both stdout
+                    and stderr. Redirecting stderr to stdout lets the output be
+                    piped to grep.
+                grep -v inverts the pattern.  Instead of selecting lines with
+                    permission, it matches lines without permission
+                grep -E is extended regular expressions, | is or. Lines with
+                    "Permission" or "No such" are filtered.
+7-8: cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+    Plan 1:
+        grep -E on data.txt for a pattern match [word] millionth or millionth [word]
+        "[a-zA-Z]+ millionth|millionth [a-zA-Z]+"
+    Actual:
+        grep -E "millionth" data.txt
+        It displayed the password along with millionth
+8-9: UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+    Plan 1: uniq data -> grep millionth
+    Outcome: Didn't work, uniq displays unique lines, not ONLY uniq lines. Also millionth isn't there.
+    
+    Plan 2: uniq -c -> grep "1 "
+    Outcome: Didn't work, uniq only removes adjacent matching lines.
+    
+    Plan 3: sort data.txt | uniq -c | grep "1 "
+9-10: truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+    Plan 1: strings data.txt | grep -E "={2,}"
+        "={2,}" means at least 2 consecutive '='
+    Outcome: success
+10-11: IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+    Plan 1: base64 -d data.txt
+        -d is decode
+    Outcome: success
