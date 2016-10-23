@@ -1,0 +1,54 @@
+0:
+    pass: leviathan 0
+    
+0-1: rioGegei8m 
+    ls -al to see all the things, notice there is a hidden folder .backup/
+    it contains bookmarks.html
+    try to look for pass or flag inside it
+    Method 1: 
+        I did
+            scp leviathan0@leviathan.labs.overthewire.org:~/.backup/bookmarks.html ./
+        which puts the file on my computer. Then, just open it in a browser and
+        ctrl-f for either pass or flag. Pass takes you to a link to password
+        
+    Method 2:
+        grep -r -i "pass" .
+        search recursively through folders for "pass", ignoring case
+        
+1-2: ougahZi8Ta
+    check what there is  
+        ls -al
+    
+    see that there is an executable, but you don't know the pass
+    
+    see if pass is somewhere
+        grep -r -i "pass"
+    results in "Binary file check matches"
+        grep -ari "pass" to process in binary
+    nothing good
+        
+    use strace to track system calls
+        strace ./check
+    doesn't reveal anything
+    
+    use ltrace to look at library calls
+        ltrace ./check
+    see that there is a a strcmp("l\n\n", "sex")
+    
+    sex is the password for check
+    run it again, and you get access to a shell
+        whoami
+    I am leviathan2, so cd /etc/leviathan_pass, and
+        cat leviathan2
+        
+2-3:
+        ./printfile /etc/leviathan_pass/leviathan3
+    see that access("file", R_OK) is called
+    if we give it a file we can read, it might pass
+    
+    make a tmp dir with a random file
+        strace ./printfile /tmp/edf_leviathan3/file
+    it passes, then calls cat with the path
+      
+    cat can take multiple params, so we can exploit the path
+    
