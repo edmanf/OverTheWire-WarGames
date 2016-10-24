@@ -1,0 +1,126 @@
+0:
+    pass: leviathan 0
+    
+0-1: rioGegei8m 
+    ls -al to see all the things, notice there is a hidden folder .backup/
+    it contains bookmarks.html
+    try to look for pass or flag inside it
+    Method 1: 
+        I did
+            scp leviathan0@leviathan.labs.overthewire.org:~/.backup/bookmarks.html ./
+        which puts the file on my computer. Then, just open it in a browser and
+        ctrl-f for either pass or flag. Pass takes you to a link to password
+        
+    Method 2:
+        grep -r -i "pass" .
+        search recursively through folders for "pass", ignoring case
+        
+1-2: ougahZi8Ta
+    check what there is  
+        ls -al
+    
+    see that there is an executable, but you don't know the pass
+    
+    see if pass is somewhere
+        grep -r -i "pass"
+    results in "Binary file check matches"
+        grep -ari "pass" to process in binary
+    nothing good
+        
+    use strace to track system calls
+        strace ./check
+    doesn't reveal anything
+    
+    use ltrace to look at library calls
+        ltrace ./check
+    see that there is a a strcmp("l\n\n", "sex")
+    
+    sex is the password for check
+    run it again, and you get access to a shell
+        whoami
+    I am leviathan2, so cd /etc/leviathan_pass, and
+        cat leviathan2
+        
+2-3: Ahdiemoo1j
+        ./printfile /etc/leviathan_pass/leviathan3
+    ltrace to see that access("file", 4) is called
+    if we give it a file we can read, it might pass
+    
+    make a tmp dir with a random file
+        ltrace ./printfile /tmp/edf_lev3/file
+    If it passes, it cats the file
+      
+    cat can take multiple params, so we can trick it into passing one file,
+    then calling cat on the second.
+    
+        touch 'a file'
+        rm file
+        ln -s /etc/leviathan_pass/leviathan3
+        
+        ~/printfile 'a file'
+    
+    first, access('a file') passes, because we have permissions for it
+    then, cat a file is called
+    it first tries to do 'a', which doesn't exist, then it does file, which
+    does exist and succeeds, since its run as leviathan3, the symlink works.
+    
+3-4: vuH0coox6m
+    ./level3        // bzzzzzzap WRONG
+    
+    ltrace ./level3
+        see that it does a strcmp("input", "snlprintf\n"), so try that as password
+        it gives me a shell, but user is still leviathan3
+        
+    outside of ltrace,
+    ./level3 snlprintf gives you a leviathan4 shell
+        
+4-5: Tith4cokei
+    ll
+        see hidden .trash folder 
+        in it is bin, which prints out binary
+        01010100 01101001 01110100 01101000 00110100 01100011 01101111 01101011 01100101 01101001 00001010
+    
+    ltrace ./bin
+        shows fopen("/etc/leviathan_pass/leviathan5", "r")
+        so the previous value is the password in binary
+        put it through a converter
+    
+5-6: UgaoFee4li
+    ./leviathan5
+        output is cannot find /tmp/file.log
+        
+    ltrace ./leviathan5
+        see that it calls fopen("/tmp/file.log", "r")
+        have to try make it
+    
+    echo "HELLO" >> /tmp/file.log
+    ./leviathan5
+        it prints HELLO, then the file disappears
+        
+    echo "HELLO" >> /tmp/file.log
+    ltrace ./leviathan5
+        see that it does fopen("/tmp/file.log", "r"), then gets a char and prints it
+        maybe we need to make a sym link called /tmp/file.log to the password
+        
+    ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log
+    ./leviathan5
+
+6-7: ahy7MaeBo9
+    ./leviathan6
+        uses 4 digit code as param
+        
+    ./leviathan6 0000
+        Wrong
+        
+    ltrace ./leviathan6 1234
+        only does a atoi to get the arg, then immediately says wrong
+        probably need a script to try each possible arg
+    
+    Script is lev6.sh
+    hangs on 7123, so see what's up
+    
+    ./leviathan6 7123
+        gives us a shell, user is leviathan7, so can get the pass
+        
+Done
+    
