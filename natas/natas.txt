@@ -1,0 +1,60 @@
+natas0-1: gtVrDuiDfck831PqWsLEZy5gyDz1clto
+    check the page source, pass is there
+    
+natas1-2: ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi
+    can't right click, so examine html using firebug
+    Didn't work
+    Right-clicking isn't actually blocked though
+    
+    Can also do ctrl-u to view page source, or download the page and look
+    at it in a text editor
+    
+natas2-3: sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
+    look at the source, there is an image "/files/pixel.png"
+    this means its the the folder files, so try
+    http://natas2.natas.labs.overthewire.org/files
+    
+    Here we see that there is a users.txt, and it has the password
+
+natas3-4: Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
+    Look at source, it says google can't find it.
+    This is a hint about robots.txt, which lets a site opt out
+    of searches
+    
+    http://natas3.natas.labs.overthewire.org/robots.txt
+        User-agent: *
+        Disallow: /s3cr3t/
+        
+        This means all robots should not visit 
+        http://natas3.natas.labs.overthewire.org/s3cr3t/
+        
+        
+    this turns out to be a folder with a users.txt with the password
+    
+natas4-5: iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+    Have to be authorized from natas5.
+    From just typing it in, I come from "", clicking on refresh has me coming
+    from natas4.
+    
+    Check the http requests in the browser. The difference is in the referer
+    header, so make a new request with a referer set to natas5
+    
+    I had to download httprequester on firefox.
+    
+    GET http://natas4.natas.labs.overthewire.org
+    Referer: http://natas5.natas.labs.overthewire.org/
+    Authorization: Basic bmF0YXM0Olo5dGtSa1dtcHQ5UXI3WHJSNWpXUmtnT1U5MDFzd0Va
+    
+natas5-6: aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
+    Says I'm not logged in.
+    Check source, nothing interesting
+    
+    Use firebug to check cookies, see a cookie called loggedin which is 0
+    change to 1 and refresh
+    
+natas6-7: 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
+    Look at the source code, see that $secret must come from includes/secret.inc
+    goto http://natas6.natas.labs.overthewire.org/includes/secret.inc
+    and look at the source.
+    Secret is: FOEIUWGHFEEUHOFUOIU
+    
